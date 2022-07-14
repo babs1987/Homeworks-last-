@@ -1,6 +1,8 @@
+
+
+
 class PathNotFound(Exception):
     pass
-
 
 
 class Edge:
@@ -16,6 +18,8 @@ class Edge:
 
     def set_links(self, links: dict['Edge', float]):
         self.links = links
+        for key, value in self.links.items():
+            self.links[key] *= -1
 
     def has_path(self, target: 'Edge'):
         opened = [self]
@@ -43,6 +47,7 @@ class Edge:
         return False
 
     def find_path(self, target: 'Edge') -> tuple[list['Edge'], float]:
+        # Edge.change_direction(self)
         path_weight: dict[Edge, float] = {self: 0}
         waypoints: dict[Edge, list[Edge]] = {self: []}
 
@@ -68,20 +73,26 @@ def main():
     kameno = Edge('Усть-Каменогорск')
     kuku = Edge('Кукуево')
     istok = Edge('Исток')
-    bobrovsk  = Edge('Бобровск')
+    bobrovsk = Edge('Бобровск')
 
-    zuz.set_links({istok: -10, kameno: -8})
-    kameno.set_links({zuz: -8, kuku: -6, istok: -7})
-    kuku.set_links({bobrovsk: -5, kameno: -5})
-    istok.set_links({bobrovsk:-7, zuz: -10, kameno:-7})
-    bobrovsk.set_links({kuku: -5, istok: -7})
+    # zuz.set_links({istok: -10, kameno: -8})
+    # kameno.set_links({zuz: -8, kuku: -6, istok: -7})
+    # kuku.set_links({bobrovsk: -5, kameno: -5})
+    # istok.set_links({bobrovsk: -7, zuz: -10, kameno: -7})
+    # bobrovsk.set_links({kuku: -5, istok: -7})
+
+    zuz.set_links({istok: 10, kameno: 8})
+    kameno.set_links({zuz: 8, kuku: 6, istok: 7})
+    kuku.set_links({bobrovsk: 5, kameno: 5})
+    istok.set_links({bobrovsk: 7, zuz: 10, kameno: 7})
+    bobrovsk.set_links({kuku: 5, istok: 7})
 
     # if kameno.has_path(bobrovsk):
     #     print('Путь найден')
 
     path, cost = bobrovsk.find_path(istok)
     if path:
-        print('Cost:', cost)
+        print('Cost:', cost * -1)
 
         for edge in path:
             print(edge)
