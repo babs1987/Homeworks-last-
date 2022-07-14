@@ -2,6 +2,7 @@ class PathNotFound(Exception):
     pass
 
 
+
 class Edge:
     name: str
     links: dict['Edge': float]

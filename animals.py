@@ -4,6 +4,7 @@ import os
 import json
 
 
+
 class BaseAnimal:
     name: str
     birthday: date
